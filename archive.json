@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-03-30T01:02:44.497911+00:00",
+  "timestamp": "2021-04-01T01:06:48.481037+00:00",
   "repo": "ietf-wg-httpapi/rfc7807bis",
   "labels": [
     {
@@ -130,7 +130,7 @@
       "labels": [],
       "body": "Sometimes an API will want to report more than one problem in a response. 7807 explains that this can be done in extensions, but does not natively allow multiple problems to be conveyed, because there was concern that doing so would make it too easy to contradict the semantics of the status code.\r\n\r\nSince publication, developers have still wanted a generic solution to this. A few possible directions we could go on:\r\n\r\n0. Do nothing\r\n1. Improve the documentation regarding how to handle multiple problems in extensions\r\n2. Introduce a way to natively convey multiple problems, as long as they share the same status code semantics\r\n3. Something else?",
       "createdAt": "2021-01-28T23:41:07Z",
-      "updatedAt": "2021-03-12T19:06:57Z",
+      "updatedAt": "2021-03-30T13:54:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -174,6 +174,20 @@
           "body": "@gabesullice in practice, when there are multiple problems, it comes to a human to analyse. That analysis can be done iwth raw text, or with structured data. People do structured data all the time, and if you don't have an answer they'll build their own.\r\nNow, the rules we use is to allow a simple automated system to take care of the cases where the most specific issues happen (say, two gateways are timing out, it's a timeout, we merge towards a specific status code, automated clietns take care of it). In the cases where they're not, the lack of standard way of communicating a common scenario leads to one of those less than ideal scenarios: try not to step on the spec's turf, and create your own schema (implementation cost reduction through network effect nullified, no way to generiically notify operators as schema is now per api), not give data (worst outcome), or give text and hope someone reads it.\r\nOperational support scenarios can be automated in the \"let's get a human involved\" pathway, and as long as we have no answer for this, no tool vendor will use this, making everything more complex, more isolated, and in turn, more expensive.\r\n\r\nIf one of the variables is badly written and an invalid URI, and another one does not exist, and i've been teaching people to reuse errors they understand, i now have no standard way to explain that one problem is X and another is Y.\r\n\r\nOperational is part of APIs and automation is as important to DevRelOps as it is to just plain APIs. ",
           "createdAt": "2021-03-12T19:06:57Z",
           "updatedAt": "2021-03-12T19:06:57Z"
+        },
+        {
+          "author": "andrecedik",
+          "authorAssociation": "NONE",
+          "body": "Thank you @serialseb for the insights into how you're handling this issue. It's an interesting approach to the limitations of the original RFC and reflects what we're also trying to 'fix' with [our I-D](https://datatracker.ietf.org/doc/draft-cedik-http-warning/). Do you also return the `status` attribute within the `inner_problems` array to let the client know the severity of the problem?\r\n\r\n> if a server responds with both the insufficient-storage and invalid-field error types, the client will have to understand that it's a waste of time to fix the validation error because the server is out of space\r\n\r\n@gabesullice it may be a waste of time at the moment, but when you know beforehand that fixing the space problem won't make the other problem(s) go away one could also think about correcting the `invalid-field error` before sending a new request. \r\n\r\n> This still permits a client to fix multiple problems iteratively by retrying the request after each problem has been fixed.\r\n\r\nYes, but isn't that a bad user experience? I'd rather know everything I'm doing wrong right now before making a new request, fixing one problem, making another request, fixing another problem, and so on.",
+          "createdAt": "2021-03-30T06:25:24Z",
+          "updatedAt": "2021-03-30T06:25:24Z"
+        },
+        {
+          "author": "gabesullice",
+          "authorAssociation": "NONE",
+          "body": "> Yes, but isn't that a bad user experience?\r\n\r\nIt's certainly a trade off, but fixing one problem at a time is the best way to debug. Whenever I try to make more than one change at a time, I end up in a more chaotic debugging state than before. It's good practice to make isolated changes that you understand rather than throwing things at the wall to see what sticks.\r\n\r\nThe trade off is that the media type is less flexible and certain things will be more difficult to convey.\r\n\r\nHowever, in my experience with the JSON:API spec (which supports multiple error objects), server implementers tend to dump useless stack traces into response bodies and try to abuse them to make non-atomic updates. Multiple errors also encourage client implementers to try the kitchen sink approach to debugging.\r\n\r\nSo it's in the spirit of designing something that makes good practices easy and bad practices difficult that I'm pushing back against supporting multiple problem details.\r\n\r\n---\r\n\r\nMy suggestion is to finalize this document for the single error case. Then mint an error type called `multiple` which defines an extension member named `instances`. The value of `instances` would be an array of problem objects as defined for the single error case. Perhaps it will add additional extension members for those child objects as well.\r\n\r\nTo benefit from network effects, the `multiple` type can be published using the IETF process. By separating that into its own document, you can iterate on that design in a separate document without postponing this one.",
+          "createdAt": "2021-03-30T13:54:55Z",
+          "updatedAt": "2021-03-30T13:54:55Z"
         }
       ]
     },
@@ -788,6 +802,30 @@
           "body": "> If the main operator is human, then a documentation URI would only make sense because it overrides the main URI, which would only be done if said URI is not in control of the operator that published said URI\r\n\r\nIn that case, I wonder if a Link header - with `rel=\"help\"` maybe? - would be a better way of achieving that? That way the actual problem payload doesn't change just because some server wants to indicate that human-readable documentation about the problem exists somewhere different to the provided URI.",
           "createdAt": "2021-03-12T19:42:02Z",
           "updatedAt": "2021-03-12T19:42:13Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "MDU6SXNzdWU4NDUzMTI4NzI=",
+      "title": "Deprecating media type?",
+      "url": "https://github.com/ietf-wg-httpapi/rfc7807bis/issues/16",
+      "state": "OPEN",
+      "author": "sdatspun2",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": ">Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new \"standard\" members without defining a new media type\r\n\r\n@mnot Pardon my ignorance here...what was the reason to tie \"standard\" members with a media type and not with schema (at least for JSON and XML)? It locks the definition but it also makes it extremely difficult to evolve. Should this be revisited? \r\n\r\nIt would be much easier to resolve #6 and #8 if we could made backward-compatible changes to schemas. \r\n\r\n",
+      "createdAt": "2021-03-30T21:37:56Z",
+      "updatedAt": "2021-03-30T21:50:30Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The media type advertises that the content is of a certain format; if you make backwards-compatible changes to that, you're going to break some processors. ",
+          "createdAt": "2021-03-30T21:50:30Z",
+          "updatedAt": "2021-03-30T21:50:30Z"
         }
       ]
     }
