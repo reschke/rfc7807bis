@@ -11,7 +11,7 @@ Expires: 17 October 2021                                        S. Dalal
 
 
                      Problem Details for HTTP APIs
-                  draft-nottingham-httpapi-rfc7807bis
+               draft-nottingham-httpapi-rfc7807bis-latest
 
 Abstract
 
