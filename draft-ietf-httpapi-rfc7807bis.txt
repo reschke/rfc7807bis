@@ -4,9 +4,10 @@
 
 Network Working Group                                      M. Nottingham
 Internet-Draft                                                          
-Obsoletes: 7807 (if approved)                                   S. Dalal
-Intended status: Standards Track                         28 January 2021
-Expires: 1 August 2021
+Obsoletes: 7807 (if approved)                                   E. Wilde
+Intended status: Standards Track                                        
+Expires: 17 October 2021                                        S. Dalal
+                                                           15 April 2021
 
 
                      Problem Details for HTTP APIs
@@ -40,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2021.
+   This Internet-Draft will expire on 17 October 2021.
 
 Copyright Notice
 
@@ -497,31 +498,31 @@ Table of Contents
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
+              <https://datatracker.ietf.org/doc/html/rfc2119>.
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
-              <https://www.rfc-editor.org/info/rfc3986>.
+              <https://datatracker.ietf.org/doc/html/rfc3986>.
 
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
-              <https://www.rfc-editor.org/info/rfc5234>.
+              <https://datatracker.ietf.org/doc/html/rfc5234>.
 
    [RFC7159]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
               Interchange Format", RFC 7159, DOI 10.17487/RFC7159, March
-              2014, <https://www.rfc-editor.org/info/rfc7159>.
+              2014, <https://datatracker.ietf.org/doc/html/rfc7159>.
 
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
+              <https://datatracker.ietf.org/doc/html/rfc7230>.
 
    [RFC7231]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
               DOI 10.17487/RFC7231, June 2014,
-              <https://www.rfc-editor.org/info/rfc7231>.
+              <https://datatracker.ietf.org/doc/html/rfc7231>.
 
    [XML]      Bray, T., Paoli, J., Sperberg-McQueen, M., Maler, E., and
               F. Yergeau, "Extensible Markup Language (XML) 1.0 (Fifth
@@ -551,24 +552,24 @@ Table of Contents
    [RFC4918]  Dusseault, L., Ed., "HTTP Extensions for Web Distributed
               Authoring and Versioning (WebDAV)", RFC 4918,
               DOI 10.17487/RFC4918, June 2007,
-              <https://www.rfc-editor.org/info/rfc4918>.
+              <https://datatracker.ietf.org/doc/html/rfc4918>.
 
    [RFC5988]  Nottingham, M., "Web Linking", RFC 5988,
               DOI 10.17487/RFC5988, October 2010,
-              <https://www.rfc-editor.org/info/rfc5988>.
+              <https://datatracker.ietf.org/doc/html/rfc5988>.
 
    [RFC6694]  Moonesamy, S., Ed., "The "about" URI Scheme", RFC 6694,
               DOI 10.17487/RFC6694, August 2012,
-              <https://www.rfc-editor.org/info/rfc6694>.
+              <https://datatracker.ietf.org/doc/html/rfc6694>.
 
    [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
-              <https://www.rfc-editor.org/info/rfc6838>.
+              <https://datatracker.ietf.org/doc/html/rfc6838>.
 
    [RFC7303]  Thompson, H. and C. Lilley, "XML Media Types", RFC 7303,
               DOI 10.17487/RFC7303, July 2014,
-              <https://www.rfc-editor.org/info/rfc7303>.
+              <https://datatracker.ietf.org/doc/html/rfc7303>.
 
    [XSLT]     Clark, J., Pieters, S., and H. Thompson, "Associating
               Style Sheets with XML documents 1.0 (Second Edition)",
@@ -698,6 +699,12 @@ Authors' Addresses
 
    Email: mnot@mnot.net
    URI:   https://www.mnot.net/
+
+
+   Erik Wilde
+
+   Email: erik.wilde@dret.net
+   URI:   http://dret.net/netdret/
 
 
    Sanjay Dalal
